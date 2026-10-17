@@ -1,0 +1,88 @@
+{
+  "best_model": "hist_gradient_boosting",
+  "test_rows": 203304,
+  "comparison": [
+    {
+      "model": "Linear Regression (baseline)",
+      "MAE": 1.4192,
+      "MSE": 28.1127,
+      "RMSE": 5.3021,
+      "R2": 0.801,
+      "danger_class_accuracy": 0.9049
+    },
+    {
+      "model": "Ridge + interactions",
+      "MAE": 1.1151,
+      "MSE": 14.8824,
+      "RMSE": 3.8578,
+      "R2": 0.8946,
+      "danger_class_accuracy": 0.9273
+    },
+    {
+      "model": "Random Forest",
+      "MAE": 0.0595,
+      "MSE": 0.0788,
+      "RMSE": 0.2806,
+      "R2": 0.9994,
+      "danger_class_accuracy": 0.9941
+    },
+    {
+      "model": "Gradient Boosting (HGB)",
+      "MAE": 0.0958,
+      "MSE": 0.1806,
+      "RMSE": 0.425,
+      "R2": 0.9987,
+      "danger_class_accuracy": 0.9926
+    },
+    {
+      "model": "Official FWI equation (reference)",
+      "MAE": 0.0429,
+      "MSE": 0.0034,
+      "RMSE": 0.0583,
+      "R2": 1.0,
+      "danger_class_accuracy": 0.9948
+    }
+  ],
+  "best_model_mae_by_danger_class": [
+    {
+      "cls": "Low (0-5)",
+      "count": 108803,
+      "MAE": 0.047
+    },
+    {
+      "cls": "Moderate (5-10)",
+      "count": 32126,
+      "MAE": 0.072
+    },
+    {
+      "cls": "High (10-20)",
+      "count": 36046,
+      "MAE": 0.086
+    },
+    {
+      "cls": "Very high (20-30)",
+      "count": 14569,
+      "MAE": 0.151
+    },
+    {
+      "cls": "Extreme (30+)",
+      "count": 11760,
+      "MAE": 0.569
+    }
+  ],
+  "permutation_importance": {
+    "initial_spread_index": 7.2158,
+    "build_up_index": 4.3786,
+    "fine_fuel_moisture_code": 0.0561,
+    "duff_moisture_code": 0.0517,
+    "wind_speed": 0.0474,
+    "drought_code": 0.0026,
+    "temperature": 0.0022,
+    "dew_point_temperature": 0.0016,
+    "relative_humidity": 0.0008,
+    "atmospheric_pressure": 0.0008,
+    "precipitation": 0.0008,
+    "rain_days": 0.0002,
+    "country": 0.0001
+  }
+}

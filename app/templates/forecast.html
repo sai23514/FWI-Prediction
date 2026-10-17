@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FWI Forecast · Tempest</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+<style>
+  :root { --bg:#faf7f2; --card:#fff; --ink:#222; --muted:#666; --accent:#d9622b; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+         background: var(--bg); color: var(--ink); }
+  header { background: linear-gradient(135deg,#3a1c0b,#d9622b); color:#fff; padding:28px 20px; }
+  header h1 { margin:0; font-size:1.7rem; }
+  header p { margin:6px 0 0; opacity:.85; }
+  main { max-width: 980px; margin: 24px auto; padding: 0 16px; display:grid;
+         grid-template-columns: 1.6fr 1fr; gap: 20px; }
+  @media (max-width: 800px) { main { grid-template-columns: 1fr; } }
+  .card { background: var(--card); border-radius: 14px; padding: 20px;
+          box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+  h2 { margin-top:0; font-size:1.1rem; }
+  fieldset { border:none; padding:0; margin:0 0 14px; display:grid;
+             grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  legend { font-weight:600; color: var(--accent); margin-bottom: 8px; }
+  label { font-size:.85rem; color: var(--muted); display:block; }
+  input, select { width:100%; padding:9px 10px; border:1px solid #ddd; border-radius:8px;
+                  font-size:.95rem; margin-top:4px; }
+  button { background: var(--accent); color:#fff; border:none; border-radius:10px;
+           padding: 12px 18px; font-size:1rem; cursor:pointer; width:100%; }
+  button:hover { filter: brightness(1.05); }
+  .result { text-align:center; }
+  .fwi { font-size: 3.4rem; font-weight: 800; margin: 8px 0; }
+  .badge { display:inline-block; padding:6px 14px; border-radius:999px; color:#fff; font-weight:600; }
+  .muted { color: var(--muted); font-size:.85rem; }
+  .error { background:#fdecea; color:#b71c1c; padding:10px 12px; border-radius:8px; margin-bottom:12px; }
+  table { width:100%; border-collapse: collapse; font-size:.85rem; margin-top: 12px; }
+  td { padding: 4px 0; } td:last-child { text-align:right; }
+  .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; }
+
+  nav { display:flex; gap:8px; margin-top:14px; }
+  nav a { color:#fff; text-decoration:none; padding:6px 14px; border-radius:999px;
+          background: rgba(255,255,255,.15); font-size:.9rem; }
+  nav a.active { background:#fff; color:#3a1c0b; font-weight:600; }
+
+  .wide { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+  .search { display:flex; gap:10px; } .search input { margin:0; } .search button { width:auto; }
+  .days { display:grid; grid-template-columns: repeat(auto-fill, minmax(118px,1fr)); gap:10px; margin-top:16px; }
+  .day { border-radius:12px; padding:10px; color:#fff; text-align:center; position:relative; }
+  .day.past { opacity:.6; }
+  .day .d { font-size:.8rem; opacity:.9; } .day .v { font-size:1.8rem; font-weight:800; }
+  .day .c { font-size:.8rem; font-weight:600; } .day .w { font-size:.72rem; opacity:.9; margin-top:4px; }
+  .tag { position:absolute; top:6px; right:8px; font-size:.62rem; background:rgba(0,0,0,.25); padding:1px 6px; border-radius:6px; }
+  #map { height: 320px; border-radius: 12px; margin-top: 16px; }
+  .grid2 { display:grid; grid-template-columns: 1fr; gap: 16px; }
+  .note { background:#fff8e1; padding:10px 12px; border-radius:8px; font-size:.85rem; margin-top:12px; }
+</style>
+</head>
+<body>
+<body>
+<header>
+  <h1>🔥 Tempest FWI Predictor</h1>
+  <p>3-day fire danger forecast for any place, from live weather and the weather-only ML model</p>
+  <nav><a href="/">Calculator</a><a href="/forecast" class="active">3-day forecast</a></nav>
+</header>
+<div class="wide">
+  <form class="card search" method="get" action="/forecast">
+    <input name="place" placeholder="City or town, e.g. Kelowna, Fort McMurray, Redding" value="{{ place }}" required>
+    <button type="submit">Forecast</button>
+  </form>
+  {% if error %}<div class="card error" style="margin-top:16px">{{ error }}</div>{% endif %}
+  {% if result %}
+  <div class="card" style="margin-top:16px">
+    <h2>{{ result.location }}</h2>
+    <p class="muted">Past week (faded), today and the next days. FWI is estimated from noon weather and the last 60 days of rain, temperature and humidity.</p>
+    <div class="days">
+      {% for d in result.days %}
+      <div class="day {{ d.kind }}" style="background: {{ d.color }}">
+        {% if d.kind != 'past' %}<span class="tag">{{ 'TODAY' if d.kind == 'today' else 'FORECAST' }}</span>{% endif %}
+        <div class="d">{{ d.date }}</div>
+        <div class="v">{{ d.fwi }}</div>
+        <div class="c">{{ d.danger_class }}</div>
+        <div class="w">{{ d.temperature }}°C · {{ d.relative_humidity }}% RH<br>{{ d.wind_speed }} km/h · {{ d.precipitation }} mm</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% if result.note %}<div class="note">{{ result.note }}</div>{% endif %}
+    <div id="map"></div>
+  </div>
+  <script>
+    const lat = {{ result.latitude }}, lon = {{ result.longitude }};
+    const today = {{ (result.days | selectattr('kind','equalto','today') | list | first) | tojson }};
+    const map = L.map('map').setView([lat, lon], 8);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {maxZoom: 18, attribution: '&copy; OpenStreetMap contributors'}).addTo(map);
+    const c = today ? today.color : '#888';
+    L.circle([lat, lon], {radius: 25000, color: c, fillColor: c, fillOpacity: .35}).addTo(map)
+     .bindPopup(`<b>{{ result.location }}</b><br>Today: FWI ${today ? today.fwi : '?'} (${today ? today.danger_class : ''})`).openPopup();
+  </script>
+  {% else %}
+  <p class="muted" style="margin-top:16px">Weather data: Open-Meteo (free, no key). Works best for Canada and the US, where the model was trained.</p>
+  {% endif %}
+</div>
+</body>
+</html>

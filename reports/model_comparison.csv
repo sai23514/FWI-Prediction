@@ -1,0 +1,6 @@
+model,MAE,MSE,RMSE,R2,danger_class_accuracy
+Linear Regression (baseline),1.4192,28.1127,5.3021,0.801,0.9049
+Ridge + interactions,1.1151,14.8824,3.8578,0.8946,0.9273
+Random Forest,0.0595,0.0788,0.2806,0.9994,0.9941
+Gradient Boosting (HGB),0.0958,0.1806,0.425,0.9987,0.9926
+Official FWI equation (reference),0.0429,0.0034,0.0583,1.0,0.9948

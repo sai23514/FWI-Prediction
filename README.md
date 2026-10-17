@@ -195,4 +195,5 @@ Forecast accuracy depends on the weather forecast itself. Outside Canada and the
 ## Acknowledgments
 Completed as part of Internship 6.0 (B1). Data: Natural Resources Canada, Canadian Wildland Fire Information System. FWI equations: Van Wagner, C.E. (1987), *Development and Structure of the Canadian Forest Fire Weather Index System*, Canadian Forestry Service, Technical Report 35.
 #   F W I - P r e d i c t i o n  
+ #   F W I - P r e d i c t i o n  
  

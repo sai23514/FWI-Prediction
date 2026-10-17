@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+# data is large - download it (see README)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+# big intermediate models (the deployed model is models/fwi_model.joblib)
+models/random_forest.joblib
+*.log

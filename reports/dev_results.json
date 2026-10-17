@@ -1,0 +1,85 @@
+{
+  "best_model": "hist_gradient_boosting",
+  "best_overall": "random_forest",
+  "results": {
+    "linear_regression": {
+      "dev": {
+        "MAE": 1.4169971385122,
+        "MSE": 28.80921401685139,
+        "RMSE": 5.367421542682425,
+        "R2": 0.7961469189919128
+      },
+      "train_seconds": 12.1,
+      "model_size_mb": 0.0
+    },
+    "ridge_interactions": {
+      "dev": {
+        "MAE": 1.0985581687329224,
+        "MSE": 15.618720845191776,
+        "RMSE": 3.9520527381592183,
+        "R2": 0.8894824286481677
+      },
+      "train_seconds": 14.7,
+      "alpha": 3.1622776601683795,
+      "model_size_mb": 0.0
+    },
+    "random_forest": {
+      "dev": {
+        "MAE": 0.0594243997111422,
+        "MSE": 0.07649504943561866,
+        "RMSE": 0.2765773841723482,
+        "R2": 0.9994587234660344
+      },
+      "train_seconds": 41.6,
+      "model_size_mb": 157.41
+    },
+    "hist_gradient_boosting": {
+      "dev": {
+        "MAE": 0.09688219485765348,
+        "MSE": 0.1944527412684224,
+        "RMSE": 0.44096795945785267,
+        "R2": 0.9986240585947659
+      },
+      "train_seconds": 41.4,
+      "tuning": [
+        {
+          "learning_rate": 0.05,
+          "max_leaf_nodes": 31,
+          "max_iter": 600,
+          "dev_MAE": 0.1365
+        },
+        {
+          "learning_rate": 0.05,
+          "max_leaf_nodes": 63,
+          "max_iter": 600,
+          "dev_MAE": 0.1114
+        },
+        {
+          "learning_rate": 0.05,
+          "max_leaf_nodes": 127,
+          "max_iter": 600,
+          "dev_MAE": 0.0969
+        },
+        {
+          "learning_rate": 0.1,
+          "max_leaf_nodes": 31,
+          "max_iter": 600,
+          "dev_MAE": 0.157
+        },
+        {
+          "learning_rate": 0.1,
+          "max_leaf_nodes": 63,
+          "max_iter": 600,
+          "dev_MAE": 0.1224
+        },
+        {
+          "learning_rate": 0.1,
+          "max_leaf_nodes": 127,
+          "max_iter": 600,
+          "dev_MAE": 0.1031
+        }
+      ],
+      "model_size_mb": 1.49
+    }
+  }
+}

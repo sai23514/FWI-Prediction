@@ -1,0 +1,71 @@
+{
+  "full_input": {
+    "random_split": {
+      "MAE": 0.0944,
+      "MSE": 0.1278,
+      "RMSE": 0.3575,
+      "R2": 0.9991,
+      "danger_class_accuracy": 0.9927,
+      "test_rows": 254130
+    },
+    "time_split_2008_2009": {
+      "MAE": 0.1068,
+      "MSE": 0.183,
+      "RMSE": 0.4278,
+      "R2": 0.9989,
+      "danger_class_accuracy": 0.9923,
+      "test_rows": 292337
+    },
+    "unseen_stations": {
+      "MAE": 0.0858,
+      "MSE": 0.096,
+      "RMSE": 0.3098,
+      "R2": 0.9992,
+      "danger_class_accuracy": 0.9926,
+      "test_rows": 256718
+    }
+  },
+  "weather_only": {
+    "random_split": {
+      "MAE": 0.7414,
+      "MSE": 1.8073,
+      "RMSE": 1.3444,
+      "R2": 0.9871,
+      "danger_class_accuracy": 0.923,
+      "test_rows": 254134
+    },
+    "time_split_2008_2009": {
+      "MAE": 0.8555,
+      "MSE": 2.5538,
+      "RMSE": 1.598,
+      "R2": 0.9841,
+      "danger_class_accuracy": 0.917,
+      "test_rows": 292338
+    },
+    "unseen_stations": {
+      "MAE": 0.7498,
+      "MSE": 1.887,
+      "RMSE": 1.3737,
+      "R2": 0.9837,
+      "danger_class_accuracy": 0.9207,
+      "test_rows": 256718
+    }
+  },
+  "weather_only_top_features": {
+    "wind_speed": 3.4453,
+    "relative_humidity": 1.6655,
+    "precipitation": 1.3377,
+    "rh_mean_3d": 0.7941,
+    "temp_mean_30d": 0.7105,
+    "days_since_rain": 0.6847,
+    "rain_sum_3d": 0.654,
+    "temperature": 0.581,
+    "rain_sum_14d": 0.4089,
+    "rain_sum_60d": 0.3919,
+    "rh_mean_30d": 0.3771,
+    "day_of_year": 0.3398,
+    "rain_sum_30d": 0.3025,
+    "precipitation_lag1": 0.2706,
+    "temp_mean_7d": 0.2701
+  }
+}
